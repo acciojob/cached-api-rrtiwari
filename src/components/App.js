@@ -3,37 +3,31 @@ import React, { useState, useEffect, useMemo } from "react";
 import "regenerator-runtime/runtime";
 
 function App() {
-  const [filter, setFilter] = useState("");
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const apiUrl = useMemo(
-    () => `http://jsonplaceholder.typicode.com/posts`,
-    []
-  );
+  const apiUrl = useMemo(() => "http://jsonplaceholder.typicode.com/posts", []);
 
   useEffect(() => {
-    setLoading(true);
-    fetch(apiUrl)
-      .then((res) => res.json())
-      .then((data) => {
-        const filtered = filter
-          ? data.filter((post) => post.title.includes(filter))
-          : data;
-        setPosts(filtered);
-      })
-      .finally(() => setLoading(false));
-  }, [apiUrl, filter]);
+    const fetchPosts = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(apiUrl);
+        const data = await res.json();
+        setPosts(data);
+      } catch (err) {
+        console.error("Error fetching posts:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, [apiUrl]);
 
   return (
     <div>
       <h2>Cached API Example</h2>
-      <input
-        type="text"
-        placeholder="Filter posts by title"
-        value={filter}
-        onChange={(e) => setFilter(e.target.value)}
-      />
       {loading ? (
         <p>Loading...</p>
       ) : (
