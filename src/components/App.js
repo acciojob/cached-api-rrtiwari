@@ -16,7 +16,7 @@ function App() {
         const data = await res.json();
         setPosts(data);
       } catch (err) {
-        console.error("Error fetching posts:", err);
+        console.error(err);
       } finally {
         setLoading(false);
       }
@@ -31,11 +31,7 @@ function App() {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <ul>
-          {posts.map((post) => (
-            <li key={post.id}>{post.title}</li>
-          ))}
-        </ul>
+        posts.map((post) => <h4 key={post.id}>{post.title}</h4>)
       )}
     </div>
   );
