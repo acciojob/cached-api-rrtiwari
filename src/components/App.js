@@ -8,7 +8,7 @@ function App() {
   const [loading, setLoading] = useState(false);
 
   const apiUrl = useMemo(
-    () => `https://jsonplaceholder.typicode.com/posts`,
+    () => `http://jsonplaceholder.typicode.com/posts`,
     []
   );
 
